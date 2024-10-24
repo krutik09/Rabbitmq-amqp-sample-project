@@ -1,0 +1,6 @@
+services:
+  rabbitmq:
+    image: rabbitmq:4
+    hostname: "rabbitmq"
+    ports:
+     - "15672:15672"

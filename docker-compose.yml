@@ -1,0 +1,83 @@
+version: '3.8'
+services:
+  rabbitmq:
+    image: rabbitmq:4
+    hostname: "rabbitmq"
+    ports:
+      - "5672:5672"
+    volumes:
+      - rabbitmq_config:/etc/rabbitmq
+      - rabbitmq_data:/var/lib/rabbitmq
+      - rabbitmq_logs:/var/log/rabbitm
+      - ./rabbitmq/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf:ro
+      - ./rabbitmq/definitions.json:/etc/rabbitmq/definitions.json:ro
+    command: >
+     sh -c 'echo "ENV is $ENV";
+         if [ "$ENV" = "prod" ]; then
+           echo "Disabling management plugin";
+           rabbitmq-plugins disable rabbitmq_management;
+           rabbitmq-plugins enable rabbitmq_event_exchange;
+         elif [ "$ENV" = "dev" ]; then
+           echo "Enabling management plugin";
+           rabbitmq-plugins enable rabbitmq_management;
+           rabbitmq-plugins enable rabbitmq_event_exchange;
+         fi && rabbitmq-server'
+    networks:
+      - rabbitmq_network
+
+  app1:
+    build:
+      context: /app1
+      dockerfile: Dockerfile
+    environment:
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_USERNAME=app1
+      - RABBITMQ_PASSWORD=app1
+    depends_on:
+      - rabbitmq
+    networks:
+      - rabbitmq_network
+    restart: always
+    stdin_open: true
+    tty: true
+
+  app2:
+    build:
+      context: /app2
+      dockerfile: Dockerfile
+    environment:
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_USERNAME=app2
+      - RABBITMQ_PASSWORD=app2
+    depends_on:
+      - rabbitmq
+    restart: always
+    networks:
+      - rabbitmq_network
+    stdin_open: true
+    tty: true
+
+  admin:
+    build:
+      context: /admin
+      dockerfile: Dockerfile
+    environment:
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_USERNAME=admin
+      - RABBITMQ_PASSWORD=admin
+    depends_on:
+      - rabbitmq
+    restart: always
+    networks:
+      - rabbitmq_network
+    stdin_open: true
+    tty: true
+
+volumes:
+  rabbitmq_data:  # Define volume for RabbitMQ data
+  rabbitmq_config: # Define volume for RabbitMQ configuration
+  rabbitmq_logs:    # Define volumne for RabbitMQ logs
+
+networks:
+  rabbitmq_network:
+    driver: bridge

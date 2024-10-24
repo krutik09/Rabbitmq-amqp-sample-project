@@ -1,0 +1,82 @@
+{
+    "users": [
+        {
+            "name": "guest",
+            "password_hash": "L7+3hYRGY/L34vBcD6pkHnL1lqTVIBDchZqmVIX5hM7TwsRe",
+            "tags": [
+                "administrator"
+            ]
+        },
+        {
+            "name": "admin",
+            "password_hash": "XwItvIbMa0hRmakVSyyCHkLo0JEPx0CNKvxlJP9JqNUNJhK2",
+            "tags": [
+                "administrator"
+            ]
+        },
+        {
+            "name": "app1",
+            "password_hash": "45cMiPK0tfuPJzIyxf8Sy1I4xNbWkmn76yNRaSPdVghtXnm/",
+            "tags": [
+                "administrator"
+            ]
+        },
+        {
+            "name": "app2",
+            "password_hash": "Xf0NKbdKc/ro1EYy0iHI+wqTi4mfLewrwiffKZJa5/XQhvOg",
+            "tags": [
+                "administrator"
+            ]
+        },
+        {
+            "name": "app3",
+            "password_hash": "pKF7wv6bXhRpyIxOaKK5RQbtUgq39OtGNOEmbBjvM2wzXlJO",
+            "tags": [
+                "administrator"
+            ]
+        }
+
+    ],
+    "vhosts": [
+        {
+            "name": "\/"
+        }
+    ],
+    "permissions": [
+        {
+            "user": "guest",
+            "vhost": "/",
+            "configure": ".*",
+            "write": ".*",
+            "read": ".*"
+        },
+        {
+            "user": "admin",
+            "vhost": "/",
+            "configure": ".*",
+            "write": ".*",
+            "read": ".*"
+        },
+        {
+            "user": "app1",
+            "vhost": "/",
+            "configure": ".*",
+            "write": ".*",
+            "read": ".*"
+        },
+        {
+            "user": "app2",
+            "vhost": "/",
+            "configure": ".*",
+            "write": ".*",
+            "read": ".*"
+        },
+        {
+            "user": "app3",
+            "vhost": "/",
+            "configure": ".*",
+            "write": ".*",
+            "read": ".*"
+        }
+    ]
+}
